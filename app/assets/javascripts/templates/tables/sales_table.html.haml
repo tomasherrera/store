@@ -1,0 +1,18 @@
+%table.table.table-striped.table-bordered{"ng-init"=>"getSales();"}
+  %thead
+    %tr
+      %th Articulos
+      %th Total
+      %th Cliente
+      %th Estado
+      %th Hora
+      %th Detalle
+  %tbody
+    %tr{"ng-repeat"=>"sale in sales | orderBy:'-created_at'"}
+      %td.text-left {{sale.items}}
+      %td {{sale.total}}
+      %td {{sale.customer_name}}
+      %td{"ng-class" => "{completed: isSaleCompleted(sale.status), draft: isSaleDraft(sale.status)}"} {{getStatus(sale.status)}}
+      %td {{sale.time}}
+      %td{"style"=>"padding: 0px 0px 0px 0px;"}
+        %button.btn.btn-primary.btn-xs.fill-cell-btn{"data-toggle"=>"modal", "data-target"=>"#saleDetails", "ng-click" => "assignSale(sale);"} Ver Detalle

@@ -12,5 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require angular
+//= require angular-rails-templates
+//= require lodash
+//= require mousetrap
 //= require bootstrap-sprockets
 //= require_tree .
+
+$(document).ready( function() { 
+  $('#newSale').on('shown.bs.modal', function() {
+    $("#search-items").focus();
+  });
+ });

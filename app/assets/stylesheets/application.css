@@ -1,0 +1,85 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require mousetrap
+ *= require_tree .
+ */
+
+.tab-cursor{
+  cursor: pointer;
+}
+.fit-content{
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  margin-top: 10px !important;
+  margin-bottom: 5px !important;
+}
+
+.completed {
+  color: #2DAF00;
+}
+
+.draft {
+  background-color: #9AA09C;
+}
+
+.fill-cell-btn{
+  padding: 8px 0px 8px 0px !important; 
+  width:100%; 
+  border-radius: 0 !important;
+}
+
+.no-round-corners{
+  border-radius: 0 !important;
+}
+
+.sale-quantity-column{
+  width: auto;
+  padding: 0px !important;
+}
+
+.sale-item-name{
+  min-width: 180px;
+}
+
+.red{
+  color: #FF0900;
+}
+
+.green{
+  color: #2DAF00;
+}
+
+.sale-items-row{
+  height:20px;
+}
+
+.sale-price{
+  float: left;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+  background-color:rgba(0,0,0,0) !important;
+  border:none !important;
+}
+
+.sale-quantity{
+  float: left;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+  background-color:rgba(0,0,0,0) !important;
+  border:none !important;
+}
+
+.sale-unit-price{
+  padding: 0px !important;
+}

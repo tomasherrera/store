@@ -1,0 +1,63 @@
+#saleDetails.modal.fade{:role => "dialog"}
+  .modal-dialog
+    / Modal content
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"} &times;
+        %span
+          %h4.modal-title Detalle de Venta
+      .modal-body
+        .blockquote.text-left
+          %footer 
+            %strong Vendedor: 
+            {{detailed_sale.user_name}}
+          %footer 
+            %strong Cliente: 
+            {{detailed_sale.customer_name}},
+            %strong Identificación: 
+            {{detailed_sale.customer_doc}}
+          %footer 
+            %strong Fecha y hora: 
+            {{detailed_sale.date_and_time | capitalize}}
+          %footer 
+            %strong Total: 
+            {{detailed_sale.total}}
+          %footer 
+            %strong Pago: 
+            {{detailed_sale.payment | capitalize}}
+        %hr
+        %table.table.table-striped
+          %thead
+            %tr
+              %th Nombre
+              %th Cantidad
+              %th Precio Unit.
+              %th Subtotal
+          %tbody
+            %tr.sale-items-row{"ng-repeat" => "item in detailed_sale.raw_items"}
+              %td.text-left 
+                {{item.name}}
+                %span
+                  %i.fa.fa-caret-down.red{"tooltip-speed" => "fast", "tooltip-template" => "Precio Original {{sale_item.base_price | currency:'$':0}}", :tooltips => "", "ng-show" => "toNumber(sale_item.price) < toNumber(sale_item.base_price)"}
+                  %i.fa.fa-caret-up.green{"tooltip-speed"=>"fast", "tooltip-template" => "Precio Original {{sale_item.base_price | currency:'$':0}}", :tooltips => "", "ng-show"=>"toNumber(sale_item.price) > toNumber(sale_item.base_price)"}
+              %td
+                {{item.quantity}}
+              %td.text-left 
+                {{item.price | currency:'$':0}}
+              %td.text-left
+                {{getSubtotal(item) | currency:'$':0}}
+
+            %tr
+              %td --
+              %td --
+              %td.text-left 
+                %strong Total
+              %td.text-left 
+                %strong {{getDetailTotal(detailed_sale.raw_items) | currency:"$":0}}
+      .modal-footer
+        %button.btn.btn-danger{"data-dismiss" => "modal", :type => "button"} 
+          %i.fa.fa-ban
+          Cancelar
+        %button.btn.btn-success{'ng-show' => "detailed_sale.status === 'draft'", "data-toggle"=>"modal", "data-target"=>"#newSale", :type => "button", "data-dismiss" => "modal"} 
+          %i.fa.fa-shopping-bag
+          Completar

@@ -1,0 +1,114 @@
+#newSale.modal{:role => "dialog"}
+  .modal-dialog
+    / Modal content
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"} &times;
+        %span
+          %h4.modal-title Nueva Venta
+      .modal-body
+        .form-group
+          %label.sr-only{:for => "search-items"} Buscar
+          .input-group
+            .input-group-addon
+              %i.fa.fa-search
+            %input#search-items.form-control{"ng-focus"=>"unassignKeys()", "ng-blur"=>"assignKeys()", "ng-model"=>"search", :placeholder => "Buscar articulos", :type => "text"}
+          %table.table.table-striped.table-bordered{"ng-if"=>"search"}
+            %tbody
+              %tr{"ng-repeat"=>"item in items | filter:search | limitTo:3"}
+                %td {{item.name}}
+                %td {{item.price}}
+                %td{"style"=>"padding: 0px 0px 0px 0px;"}
+                  %button.btn.btn-primary.btn-xs.fill-cell-btn{"ng-click" => "addItemToSale(item);"} 
+                    %i.fa.fa-cart-plus
+                    Agregar
+        %hr
+        %h5 Articulos
+        .well{"ng-show"=>"sale_items.length === 0"}
+          %small No se han agregado articulos.
+        %table.table.table-striped{"ng-hide"=>"sale_items.length === 0"}
+
+          %thead
+            %tr
+              %th Nombre
+              %th Cantidad
+              %th Precio Unit.
+              %th Subtotal
+              %th Acciones
+          %tbody
+            %tr.sale-items-row{"ng-repeat" => "sale_item in sale_items"}
+              %td.text-left.sale-item-name 
+                {{sale_item.name}}
+                %span
+                  %i.fa.fa-caret-down.red{"tooltip-speed" => "fast", "tooltip-template" => "Precio Original {{sale_item.base_price | currency:'$':0}}", :tooltips => "", "ng-show" => "toNumber(sale_item.price) < toNumber(sale_item.base_price)"}
+                  %i.fa.fa-caret-up.green{"tooltip-speed"=>"fast", "tooltip-template" => "Precio Original {{sale_item.base_price | currency:'$':0}}", :tooltips => "", "ng-show"=>"toNumber(sale_item.price) > toNumber(sale_item.base_price)"}
+              %td.sale-quantity-column
+                %input.sale-quantity{"ng-model"=>"sale_item.quantity"}
+              %td.sale-unit-price.text-left 
+                %input.sale-price{"ng-model"=>"sale_item.price"}
+              %td.sale-unit-price.text-left
+                %input.sale-price{"ng-value"=>"getSubtotal(sale_item);", "ng-disabled"=>"true"}
+              %td.text-left{"style"=>"padding: 0px 0px 0px 0px !important;"}
+                %button.btn.btn-danger.fill-cell-btn{"ng-click"=>"removeSaleItem($index);"} 
+                  %i.fa.fa-trash-o
+            %tr
+              %td --
+              %td --
+              %td.text-left 
+                %strong Total
+              %td.text-left 
+                %strong {{getTotal() | currency:"$":0}}
+        %hr
+        %h5 Cliente
+        #search-customer{"ng-show" => "selectedCustomer === ''"}
+          .form-group
+            %label.sr-only{:for => "search-items"} Buscar
+            .input-group
+              .input-group-addon
+                %i.fa.fa-search
+              %input#search-items.form-control{"ng-focus"=>"unassignKeys()", "ng-blur"=>"assignKeys()", "ng-model"=>"search_customer", :placeholder => "Buscar cliente", :type => "text"}
+                %span.input-group-btn
+                  %button.btn.btn-success{:type => "button"}
+                    %i.fa.fa-user-plus
+            %table.table.table-striped.table-bordered{"ng-if"=>"search_customer"}
+              %tbody
+                %tr{"ng-repeat"=>"customer in customers | filter:search_customer | limitTo:3"}
+                  %td {{customer.name}}
+                  %td {{customer.cedula}}
+                  %td{"style"=>"padding: 0px 0px 0px 0px;"}
+                    %button.btn.btn-success.btn-xs.fill-cell-btn{"ng-click" => "selectCustomer(customer);"} 
+                      %i.fa.fa-check
+                      Seleccionar
+        #show-customer{"ng-hide" => "selectedCustomer === ''"}
+          .blockquote.text-center
+            %footer 
+              %strong 
+                %small Nombre: 
+              {{selectedCustomer.name}}
+              %strong 
+                %small Identificación: 
+              {{selectedCustomer.cedula}}
+              %small
+                %a.tab-cursor{"ng-click" => "selectCustomer('');"} Cambiar Cliente
+        %hr
+        %h5 Método de Pago
+        .btn-group.btn-group-sm{"aria-label" => "...", :role => "group"}
+          %button.btn.btn-warning{"ng-class" => "{active: selectedPayment === 'efectivo'}", "ng-click" => "selectPayment('efectivo')"} 
+            %i.fa.fa-money 
+            Efectivo
+          %button.btn.btn-warning{"ng-class" => "{active: selectedPayment === 'credito'}", "ng-click" => "selectPayment('credito')"} 
+            %i.fa.fa-credit-card-alt 
+            Crédito
+          %button.btn.btn-warning{"ng-class" => "{active: selectedPayment === 'debito'}", "ng-click" => "selectPayment('debito')"} 
+            %i.fa.fa-credit-card 
+            Débito
+      .modal-footer
+        %button.btn.btn-danger.no-round-corners{"data-dismiss" => "modal", :type => "button"} 
+          %i.fa.fa-ban
+          Cancelar
+        %button.btn.btn-info.no-round-corners{"ng-disabled" => "sale_items.length === 0", "ng-click" => "saveSale(sale_items, getTotal(), 'draft')", "data-dismiss" => "modal", :type => "button"} 
+          %i.fa.fa-eraser
+          Borrador
+        %button.btn.btn-success.no-round-corners{"ng-disabled" => "sale_items.length === 0", "ng-click" => "saveSale(sale_items, getTotal(), 'completed'); search_customer = ''; search = ''", "data-dismiss" => "modal", :type => "button"} 
+          %i.fa.fa-print
+          Completar

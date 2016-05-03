@@ -1,0 +1,29 @@
+%ul.nav.nav-tabs{"style" => "margin-top: 5px;"}
+  %li{"ng-class" => "{active: tabSelected === 'ventas'}", :role => "presentation"}
+    %a.tab-cursor{"ng-click" => "selectTab('ventas')"} Ventas
+  %li{"ng-class" => "{active: tabSelected === 'retiros'}", :role => "presentation"}
+    %a.tab-cursor{"ng-click" => "selectTab('retiros')"} Retiros
+  %li{"ng-class" => "{active: tabSelected === 'inventario'}", :role => "presentation"}
+    %a.tab-cursor{"ng-click" => "selectTab('inventario')"} Inventario
+  %li{"ng-class" => "{active: tabSelected === 'estadisticas'}", :role => "presentation"}
+    %a.tab-cursor{"ng-click" => "selectTab('estadisticas')"} Estadisticas
+
+%div{"ng-show" => "tabSelected === 'retiros'", "ng-include" => "'withdraws_table.html'"}
+%div{"ng-include" => "'inventory_table.html'"} 
+%div{"ng-show" => "tabSelected === 'ventas'"}
+  .row.fit-content{"style"=>"margin-bottom:10px; margin-left:-15px;"}
+    %button.btn.btn-primary.btn-sm#new-sale-button.no-round-corners{"style"=>"float:left", "data-toggle"=>"modal", "data-target"=>"#newSale", "ng-click"=>"getItems(); getCustomers();"} 
+      %i.fa.fa-shopping-cart
+      Nueva Venta
+    %button.btn.btn-danger.btn-sm#new-sale-button.no-round-corners{"style"=>"float:left", "data-toggle"=>"modal", "data-target"=>"#newWithdraw", "ng-click"=>"getItems();"} 
+      %i.fa.fa-ban
+      Retiro
+  .row.fit-content
+    %div{"ng-include" => "'tables/sales_table.html'"} 
+
+
+
+
+%div{"ng-include" => "'modals/new_sale_modal.html'"}  
+%div{"ng-include" => "'modals/sale_details_modal.html'"}
+%div{"ng-include" => "'modals/new_withdraw_modal.html'"}  

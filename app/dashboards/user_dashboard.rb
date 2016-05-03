@@ -22,6 +22,7 @@ class UserDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     name: Field::String,
+    role: Field::String.with_options(searchable: false),
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -31,9 +32,8 @@ class UserDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
+    :name,
     :email,
-    :encrypted_password,
-    :reset_password_token,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -53,6 +53,7 @@ class UserDashboard < Administrate::BaseDashboard
     :created_at,
     :updated_at,
     :name,
+    :role,
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -70,12 +71,13 @@ class UserDashboard < Administrate::BaseDashboard
     :current_sign_in_ip,
     :last_sign_in_ip,
     :name,
+    :role,
   ].freeze
 
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(user)
-  #   "User ##{user.id}"
-  # end
+  def display_resource(user)
+    "#{user.name}"
+  end
 end

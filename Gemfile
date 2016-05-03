@@ -6,12 +6,18 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
+gem 'mousetrap-rails'
+gem 'money-rails'
+gem 'angular-rails-templates'
+gem 'lodash-rails'
+gem "font-awesome-rails"
 group :development, :test do
   gem 'byebug'
 end
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'pry'
 end
 gem 'administrate'
 gem 'bootstrap-sass'
@@ -20,6 +26,7 @@ gem 'haml-rails'
 gem 'high_voltage'
 gem 'pg'
 gem 'sendgrid'
+gem "administrate-field-image"
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_21]
