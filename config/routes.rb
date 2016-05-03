@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :items
     resources :sales
     resources :customers
+    get 'dates', to: "dates#get_dates"
   end
 
   namespace :admin do

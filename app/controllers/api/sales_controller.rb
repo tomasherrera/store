@@ -2,7 +2,7 @@ class Api::SalesController < ApplicationController
   respond_to :json
 
   def index
-    @sales = Sale.all.includes(:user, :customer)
+    @sales = Sale.range(params[:date]).includes(:user, :customer)
   end
 
   def create

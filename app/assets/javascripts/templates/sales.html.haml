@@ -1,23 +1,46 @@
 %ul.nav.nav-tabs{"style" => "margin-top: 5px;"}
   %li{"ng-class" => "{active: tabSelected === 'ventas'}", :role => "presentation"}
-    %a.tab-cursor{"ng-click" => "selectTab('ventas')"} Ventas
+    %a.tab-cursor{"ng-click" => "selectTab('ventas')"} 
+      %i.fa.fa-shopping-cart
+      Ventas
   %li{"ng-class" => "{active: tabSelected === 'retiros'}", :role => "presentation"}
-    %a.tab-cursor{"ng-click" => "selectTab('retiros')"} Retiros
+    %a.tab-cursor{"ng-click" => "selectTab('retiros')"} 
+      %i.fa.fa-minus
+      Retiros
   %li{"ng-class" => "{active: tabSelected === 'inventario'}", :role => "presentation"}
-    %a.tab-cursor{"ng-click" => "selectTab('inventario')"} Inventario
+    %a.tab-cursor{"ng-click" => "selectTab('inventario')"} 
+      %i.fa.fa-database
+      Inventario
+  %li{"ng-class" => "{active: tabSelected === 'clientes'}", :role => "presentation"}
+    %a.tab-cursor{"ng-click" => "selectTab('clientes')"} 
+      %i.fa.fa-users
+      Clientes
   %li{"ng-class" => "{active: tabSelected === 'estadisticas'}", :role => "presentation"}
-    %a.tab-cursor{"ng-click" => "selectTab('estadisticas')"} Estadisticas
-
+    %a.tab-cursor{"ng-click" => "selectTab('estadisticas')"} 
+      %i.fa.fa-bars
+      Estadisticas y Reportes
+  %li{"ng-class" => "{active: tabSelected === 'citas'}", :role => "presentation"}
+    %a.tab-cursor{"ng-click" => "selectTab('citas')"} 
+      %i.fa.fa-check-square-o
+      Citas
+  
+%hr
 %div{"ng-show" => "tabSelected === 'retiros'", "ng-include" => "'withdraws_table.html'"}
 %div{"ng-include" => "'inventory_table.html'"} 
 %div{"ng-show" => "tabSelected === 'ventas'"}
   .row.fit-content{"style"=>"margin-bottom:10px; margin-left:-15px;"}
     %button.btn.btn-primary.btn-sm#new-sale-button.no-round-corners{"style"=>"float:left", "data-toggle"=>"modal", "data-target"=>"#newSale", "ng-click"=>"getItems(); getCustomers();"} 
-      %i.fa.fa-shopping-cart
+      %i.fa.fa-cart-plus
       Nueva Venta
     %button.btn.btn-danger.btn-sm#new-sale-button.no-round-corners{"style"=>"float:left", "data-toggle"=>"modal", "data-target"=>"#newWithdraw", "ng-click"=>"getItems();"} 
       %i.fa.fa-ban
       Retiro
+
+    %button.btn.btn-info.btn-sm.no-round-corners{"ng-click" => "selectRange('lastmonth')", "ng-class" => "{active: selectedRange === 'lastmonth'}", "style"=>"float:right"} Último Mes
+    %button.btn.btn-info.btn-sm.no-round-corners{"ng-click" => "selectRange('lastweek')", "ng-class" => "{active: selectedRange === 'lastweek'}", "style"=>"float:right"} Última Semana
+    %button.btn.btn-info.btn-sm.no-round-corners{"ng-click" => "selectRange('yesterday')", "ng-class" => "{active: selectedRange === 'yesterday'}", "style"=>"float:right"} Ayer
+    %button.btn.btn-info.btn-sm.no-round-corners{"ng-click" => "selectRange('today')", "ng-class" => "{active: selectedRange === 'today'}","style"=>"float:right"} Hoy
+    %button.btn.btn-default.btn-sm.no-round-corners{"style"=>"float:right"} Filtro:
   .row.fit-content
     %div{"ng-include" => "'tables/sales_table.html'"} 
 
@@ -26,4 +49,4 @@
 
 %div{"ng-include" => "'modals/new_sale_modal.html'"}  
 %div{"ng-include" => "'modals/sale_details_modal.html'"}
-%div{"ng-include" => "'modals/new_withdraw_modal.html'"}  
+%div{"ng-include" => "'modals/new_withdraw_modal.html'"} 

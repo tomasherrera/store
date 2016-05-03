@@ -11,9 +11,40 @@
     $scope.selectedCustomer = '';
     $scope.selectedPayment = 'efectivo';
     $scope.search_customer = '';
+    $scope.addingCustomer = false;
+    $scope.selectedRange = 'today';
+    var date = new Date();
+    var weekdays = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado']
+    var weekday = weekdays[date.getDay()];
+    var day = date.getDate();
+    var months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+    var month = months[date.getMonth()];
+    var year = date.getFullYear();
+    $scope.currentDate = weekday + ', ' + day + ' de ' + month + ' de ' + year;
+    $scope.selectedDate = $scope.currentDate;
 
     //Helpers
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    $scope.selectRange = function(range){
+      $scope.selectedRange = range;
+      $scope.selectedDate = $scope.formatDate(range);
+      $scope.getSales();
+    };
+
+    $scope.formatDate = function(range){
+      var d = '';
+      if (range === 'today') {
+        d = $scope.dates.today;
+      } else if (range === 'yesterday') {
+        d = $scope.dates.yesterday;
+      } else if (range === 'lastweek') {
+        d = $scope.dates.lastweek;
+      } else if (range === 'lastmonth') {
+        d = $scope.dates.lastmonth;
+      }
+      return d;
+    }
 
     $scope.selectPayment = function(payment){
       $scope.selectedPayment = payment;
@@ -108,6 +139,13 @@
     //DATABASE
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    $scope.getDates = function(){
+      StoreNowDataService.getDates().get().then(function(response) {
+        $scope.dates = response.plain().dates;
+        console.log($scope.dates.today);
+      });  
+    };
+
     $scope.getCustomers = function(){
       StoreNowDataService.getCustomers().getList().then(function(response) {
         $scope.customers = response.plain();
@@ -136,7 +174,7 @@
     };
 
     $scope.getSales = function(){
-      StoreNowDataService.getSales().get().then(function(response) {
+      StoreNowDataService.getSales().get({date:$scope.selectedRange}).then(function(response) {
           $scope.sales = response.plain();
           $scope.detailed_sale = $scope.sales[0];
       });
@@ -150,6 +188,8 @@
 
     //PAGE
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    $scope.getDates();
 
     $scope.removeSaleItem = function(index){
       $scope.sale_items.splice(index, 1);

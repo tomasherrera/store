@@ -25,6 +25,13 @@
 
 	}
 
+	storeNowDataService.getDates = function ()
+	{
+		var url = baseUrl + 'dates.json';
+		return Restangular.oneUrl('dates', url);
+
+	}
+
 	storeNowDataService.saveSale = function (sale)
 	{
 		var url = baseUrl + 'sales.json';

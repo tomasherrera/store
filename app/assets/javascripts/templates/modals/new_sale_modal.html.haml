@@ -26,38 +26,38 @@
         %h5 Articulos
         .well{"ng-show"=>"sale_items.length === 0"}
           %small No se han agregado articulos.
-        %table.table.table-striped{"ng-hide"=>"sale_items.length === 0"}
-
-          %thead
-            %tr
-              %th Nombre
-              %th Cantidad
-              %th Precio Unit.
-              %th Subtotal
-              %th Acciones
-          %tbody
-            %tr.sale-items-row{"ng-repeat" => "sale_item in sale_items"}
-              %td.text-left.sale-item-name 
-                {{sale_item.name}}
-                %span
-                  %i.fa.fa-caret-down.red{"tooltip-speed" => "fast", "tooltip-template" => "Precio Original {{sale_item.base_price | currency:'$':0}}", :tooltips => "", "ng-show" => "toNumber(sale_item.price) < toNumber(sale_item.base_price)"}
-                  %i.fa.fa-caret-up.green{"tooltip-speed"=>"fast", "tooltip-template" => "Precio Original {{sale_item.base_price | currency:'$':0}}", :tooltips => "", "ng-show"=>"toNumber(sale_item.price) > toNumber(sale_item.base_price)"}
-              %td.sale-quantity-column
-                %input.sale-quantity{"ng-model"=>"sale_item.quantity"}
-              %td.sale-unit-price.text-left 
-                %input.sale-price{"ng-model"=>"sale_item.price"}
-              %td.sale-unit-price.text-left
-                %input.sale-price{"ng-value"=>"getSubtotal(sale_item);", "ng-disabled"=>"true"}
-              %td.text-left{"style"=>"padding: 0px 0px 0px 0px !important;"}
-                %button.btn.btn-danger.fill-cell-btn{"ng-click"=>"removeSaleItem($index);"} 
-                  %i.fa.fa-trash-o
-            %tr
-              %td --
-              %td --
-              %td.text-left 
-                %strong Total
-              %td.text-left 
-                %strong {{getTotal() | currency:"$":0}}
+        .table-responsive  
+          %table.table.table-striped{"ng-hide"=>"sale_items.length === 0"}
+            %thead
+              %tr
+                %th Nombre
+                %th Cantidad
+                %th Precio Unit.
+                %th Subtotal
+                %th Acciones
+            %tbody
+              %tr.sale-items-row{"ng-repeat" => "sale_item in sale_items"}
+                %td.text-left.sale-item-name 
+                  {{sale_item.name}}
+                  %span
+                    %i.fa.fa-caret-down.red{"tooltip-speed" => "fast", "tooltip-template" => "Precio Original {{sale_item.base_price | currency:'$':0}}", :tooltips => "", "ng-show" => "toNumber(sale_item.price) < toNumber(sale_item.base_price)"}
+                    %i.fa.fa-caret-up.green{"tooltip-speed"=>"fast", "tooltip-template" => "Precio Original {{sale_item.base_price | currency:'$':0}}", :tooltips => "", "ng-show"=>"toNumber(sale_item.price) > toNumber(sale_item.base_price)"}
+                %td.sale-quantity-column
+                  %input.sale-quantity{"ng-model"=>"sale_item.quantity"}
+                %td.sale-unit-price.text-left 
+                  %input.sale-price{"ng-model"=>"sale_item.price"}
+                %td.sale-unit-price.text-left
+                  %input.sale-price{"ng-value"=>"getSubtotal(sale_item);", "ng-disabled"=>"true"}
+                %td.text-left{"style"=>"padding: 0px 0px 0px 0px !important;"}
+                  %button.btn.btn-danger.fill-cell-btn{"ng-click"=>"removeSaleItem($index);"} 
+                    %i.fa.fa-trash-o
+              %tr
+                %td --
+                %td --
+                %td.text-left 
+                  %strong Total
+                %td.text-left 
+                  %strong {{getTotal() | currency:"$":0}}
         %hr
         %h5 Cliente
         #search-customer{"ng-show" => "selectedCustomer === ''"}
@@ -79,7 +79,18 @@
                     %button.btn.btn-success.btn-xs.fill-cell-btn{"ng-click" => "selectCustomer(customer);"} 
                       %i.fa.fa-check
                       Seleccionar
-        #show-customer{"ng-hide" => "selectedCustomer === ''"}
+        #show-customer{"ng-hide" => "selectedCustomer === '' || addingCustomer"}
+          .blockquote.text-center
+            %footer 
+              %strong 
+                %small Nombre: 
+              {{selectedCustomer.name}}
+              %strong 
+                %small Identificación: 
+              {{selectedCustomer.cedula}}
+              %small
+                %a.tab-cursor{"ng-click" => "selectCustomer('');"} Cambiar Cliente
+        #add-customer{"ng-show" => "addingCustomer"}
           .blockquote.text-center
             %footer 
               %strong 
